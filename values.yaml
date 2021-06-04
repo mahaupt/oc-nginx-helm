@@ -84,13 +84,13 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity: {}
-
-
-topologySpreadConstraints:
-  - maxSkew: 1
-    topologyKey: "kubernetes.io/hostname"
-    whenUnsatisfiable: ScheduleAnyway
-    labelSelector:
-      matchLabels:
-        app: nginx
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - topologyKey: "kubernetes.io/hostname"
+      labelSelector:
+        matchExpressions:
+        - key: app
+          operator: In
+          values:
+          - nginx
